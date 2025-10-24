@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, Column, String, Integer, Boolean, Float, ForeignKey
 from sqlalchemy.orm import declarative_base
-from sqlalchemy_utils import ChoiceType
 
 # alembic -> migração do banco de dados
 # Mudar o link do alembic.ini para o meu bancos de dados
@@ -37,14 +36,14 @@ class Usuario(Base):
 class Pedido(Base):
     __tablename__ = "pedidos"
 
-    STATUS_PEDIDOS = (
-        ("PENDENTE","PENDENTE"),
-        ("CANCELADO","CANCELADO"),
-        ("FINALIZADO","FINALIZADO")
-    ) # Garante a integridade do banco de dados, valores padronizados.
+    # STATUS_PEDIDOS = (
+    #     ("PENDENTE","PENDENTE"),
+    #     ("CANCELADO","CANCELADO"),
+    #     ("FINALIZADO","FINALIZADO")
+    # ) # Garante a integridade do banco de dados, valores padronizados.
 
     id = Column("id", Integer, primary_key=True, autoincrement=True)
-    status = Column("status", ChoiceType(choices=STATUS_PEDIDOS)) #PENDENTE, CANCELADO, FINALIZADO
+    status = Column("status", String) #PENDENTE, CANCELADO, FINALIZADO
     usuario = Column("usuario", ForeignKey("usuarios.id")) # Nome da tabela com campo único
     preco = Column("preco", Float)
     # itens = Column()
@@ -70,7 +69,5 @@ class ItemPedido(Base):
         self.tamanho = tamanho
         self.preco_unitario = preco_unitario
         self.pedido = pedido
-
-
 
 # Executa a criação dos metadados do seu banco (cria efetivamente o banco de dados)
